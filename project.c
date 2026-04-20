@@ -29,7 +29,8 @@ void instruction_partition(unsigned instruction, unsigned *op, unsigned *r1,unsi
 /* 15 Points */
 int instruction_decode(unsigned op,struct_controls *controls)
 {
-	if (op == 0x0) /* R-type */
+	/* R-type: use registers and write result to rd. */
+	if (op == 0x0) 
 	{
 		controls->RegDst = 1;
 		controls->Jump = 0;
@@ -42,7 +43,8 @@ int instruction_decode(unsigned op,struct_controls *controls)
 		controls->RegWrite = 1;
 		return 0;
 	}
-	else if (op == 0x2) /* j */
+	/* j: jump to a new instruction address. */
+	else if (op == 0x2) 
 	{
 		controls->RegDst = 2;
 		controls->Jump = 1;
@@ -55,7 +57,8 @@ int instruction_decode(unsigned op,struct_controls *controls)
 		controls->RegWrite = 0;
 		return 0;
 	}
-	else if (op == 0x4) /* beq */
+	/* beq: compare two registers and branch if equal. */
+	else if (op == 0x4) 
 	{
 		controls->RegDst = 2;
 		controls->Jump = 0;
@@ -68,7 +71,8 @@ int instruction_decode(unsigned op,struct_controls *controls)
 		controls->RegWrite = 0;
 		return 0;
 	}
-	else if (op == 0x8) /* addi */
+	/* addi: add an immediate value and store the result in rt. */
+	else if (op == 0x8) 
 	{
 		controls->RegDst = 0;
 		controls->Jump = 0;
@@ -81,7 +85,8 @@ int instruction_decode(unsigned op,struct_controls *controls)
 		controls->RegWrite = 1;
 		return 0;
 	}
-	else if (op == 0xa) /* slti */
+	/* slti: set rt to 1 if rs is less than the immediate value. */
+	else if (op == 0xa) 
 	{
 		controls->RegDst = 0;
 		controls->Jump = 0;
@@ -94,7 +99,8 @@ int instruction_decode(unsigned op,struct_controls *controls)
 		controls->RegWrite = 1;
 		return 0;
 	}
-	else if (op == 0xb) /* sltiu */
+	/* sltiu: unsigned version of set less than immediate. */
+	else if (op == 0xb) 
 	{
 		controls->RegDst = 0;
 		controls->Jump = 0;
@@ -107,6 +113,7 @@ int instruction_decode(unsigned op,struct_controls *controls)
 		controls->RegWrite = 1;
 		return 0;
 	}
+	/* andi: AND a register value with the immediate. */
 	else if (op == 0xc) /* andi */
 	{
 		controls->RegDst = 0;
@@ -120,7 +127,8 @@ int instruction_decode(unsigned op,struct_controls *controls)
 		controls->RegWrite = 1;
 		return 0;
 	}
-	else if (op == 0xd) /* ori */
+	/* ori: OR a register value with the immediate. */
+	else if (op == 0xd) 
 	{
 		controls->RegDst = 0;
 		controls->Jump = 0;
@@ -133,7 +141,8 @@ int instruction_decode(unsigned op,struct_controls *controls)
 		controls->RegWrite = 1;
 		return 0;
 	}
-	else if (op == 0xf) /* lui */
+	/* lui: load the immediate value into the upper half of the register. */
+	else if (op == 0xf) 
 	{
 		controls->RegDst = 0;
 		controls->Jump = 0;
@@ -146,9 +155,9 @@ int instruction_decode(unsigned op,struct_controls *controls)
 		controls->RegWrite = 1;
 		return 0;
 	}
-	else if (op == 0x23) /* lw */
+	/* lw: load word from memory into a register. */
+	else if (op == 0x23) 
 	{
-		/* Load word gets data from memory and saves it in a register. */
 		controls->RegDst = 0;
 		controls->Jump = 0;
 		controls->Branch = 0;
@@ -160,7 +169,8 @@ int instruction_decode(unsigned op,struct_controls *controls)
 		controls->RegWrite = 1;
 		return 0;
 	}
-	else if (op == 0x2b) /* sw */
+	/* sw: store word from a register into memory. */
+	else if (op == 0x2b) 
 	{
 		controls->RegDst = 2;
 		controls->Jump = 0;
