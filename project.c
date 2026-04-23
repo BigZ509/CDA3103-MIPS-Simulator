@@ -7,20 +7,38 @@
 void ALU(unsigned A,unsigned B,char ALUControl,unsigned *ALUresult,char *Zero)
 {
 
-}
+	}
 
 /* instruction fetch */
 /* 10 Points */
 int instruction_fetch(unsigned PC,unsigned *Mem,unsigned *instruction)
 {
-
+	
+if (PC % 4 != 0)
+{
+    return 1;
+	}
+else
+{
+    *instruction = Mem[PC >> 2];
+    return 0;
+	}
+	
 }
 
 /* instruction partition */
 /* 10 Points */
 void instruction_partition(unsigned instruction, unsigned *op, unsigned *r1,unsigned *r2, unsigned *r3, unsigned *funct, unsigned *offset, unsigned *jsec)
 {
-
+	
+*op = (instruction >> 26) & 0x3F;
+*r1 = (instruction >> 21) & 0x1F;
+*r2 = (instruction >> 16) & 0x1F;
+*r3 = (instruction >> 11) & 0x1F;
+*funct = instruction & 0x3F;
+*offset = instruction & 0xFFFF;
+*jsec = instruction & 0x03FFFFFF;
+	
 }
 
 /* instruction decode */
@@ -28,20 +46,32 @@ void instruction_partition(unsigned instruction, unsigned *op, unsigned *r1,unsi
 int instruction_decode(unsigned op,struct_controls *controls)
 {
 
-}
+	}
 
 /* Read Register */
 /* 5 Points */
 void read_register(unsigned r1,unsigned r2,unsigned *Reg,unsigned *data1,unsigned *data2)
 {
-
-}
+	
+*data1 = Reg[r1];
+*data2 = Reg[r2];	
+	
+	}
 
 /* Sign Extend */
 /* 10 Points */
 void sign_extend(unsigned offset,unsigned *extended_value)
 {
-
+	
+if ((offset & 0x8000) != 0)
+{
+    *extended_value = offset | 0xFFFF0000;
+	}
+else
+{
+    *extended_value = offset;
+	}
+	
 }
 
 /* ALU operations */
